@@ -1,4 +1,23 @@
- stored "Eclipse launch configurations"
+# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,java,eclipse,visualstudiocode,gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,java,eclipse,visualstudiocode,gradle
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
 *.launch
 
 # PyDev specific (Python IDE for Eclipse)
@@ -194,4 +213,4 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,eclipse,visualstudiocode,gradle,linux
+# End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,java,eclipse,visualstudiocode,gradle
