@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>함수 - 함수와 window 객체</h1>
+<script>
+// 함수도 변수와 같이 자동으로 window 객체에 소속된다.
+var obj = {
+a : "김현우",
+b : "=" ,
+c : "정해인"
+
+};
+console.log(obj.a, obj.b, obj.c);
+
+
+var obj = new Object;
+obj.name ="홍길동";
+obj[name]="김현우";
+
+function f1(str) { 
+	console.log(str);
+}
+function f2(str) {
+	console.log(str);
+
+}
+window.f1("안녕1");
+f1("안녕2"); // window. 을 생략할 수 있다.
+
+window.f2("해위");
+f2("해위");
+
+// 함수나 변수나 객체 입장에서는 그냥 프로퍼티이다.
+// 따라서 프로퍼티 값을 가리키는 다음 문법을 그대로 사용할 수 있다.
+// => 객체["프로퍼티명"]
+// => 객체['프로퍼티명']
+// 
+window["f1"]("안녕3"); // f1 이름으로 저장된 함수 주소를 가져와서 호출한다.
+ㄴㄴ
+// 함수의 주소를 값처럼 다룰 수 있다.
+// 즉 다른 변수에 저장하여 사용할 수 있다.
+var ohora = window.f1; 
+ohora("안녕4"); // 함수 주소를 갖고 있는 변수는 함수처럼 사용할 수 있다.
+
+var hi = window.f2;
+hi("안뇽");
+
+</script>
+</body>
+</html>
+
+
+
+

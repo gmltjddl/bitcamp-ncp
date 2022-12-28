@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비동기작업</title>
+</head>
+<body>
+<h1>Promise - 비동기 작업에서 발생한 예외처리 II</h1>
+<script>
+
+const promise = new Promise((resolve, reject) => {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      try {                                       //비동기함수에서 코드를실행할때
+        console.log(xhr.responseText);            //예외가 발생할수있는 코드는 try 블록안에둬라
+        document.getElementById("#btn").onclick = () =>{};
+
+      } catch(err) {                              //예외가 발생했을때 reject()를 호출하여 
+        reject(err);                              //오류가 났음을 통지하라
+      }
+    }
+  };
+  xhr.open("GET", "http://localhost:3000/hello", true); 
+  xhr.send();
+})
+.catch((reason) => console.log("catched!"+reason));  // reason 이유나옴 
+
+console.log("끝!");
+
+// executor에서 비동기 작업을 실행하는 중에 오류가 발생했을 때,
+// 명시적으로 reject() 호출하여 오류가 발생했음을 통지해야 한다.
+
+</script>
+</body>
+</html>

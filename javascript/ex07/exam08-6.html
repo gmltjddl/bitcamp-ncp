@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<head>
+<meta charset="UTF-8">
+<title>ex07</title>
+<style>
+    table{
+        width:300px;
+        min-height: 300px;
+    }
+thead > tr > th:nth-child(1){
+    width:50px;
+}
+thead > tr > th:nth-child(2){
+    width:350px;
+}thead > tr > th:nth-child(3){
+    width:150px;
+}thead > tr > th:nth-child(4){
+    width:150px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    //데이터를 받아 와서  tr 태그를 tbody에 출력하더라도 테이블의 크기가 변경되지 않으면
+    //화면깜박임이 덜하다
+    $(document).ready(() =>{
+    let contents = "";
+    let trList = $("tbody > tr");   // 리턴 값은 tbody 태그가 들어 있지 않는 객체이다 
+     $.getJSON("http://localhost:3000/exam04-3", (result) => {
+     result.forEach((b, index) => {
+                let tdList = trList[index].children;
+                tdList[0].innerHTML = b.no;
+                tdList[1].innerHTML = b.title;
+                tdList[2].innerHTML = b.writer;
+                tdList[3].innerHTML = b.viewCnt;
+
+            });
+        });
+    });
+</script>
+</head>
+<body>
+<h1>  load 이벤트 - 비동기 방식에서 화면 깜박임 처리 </h1>
+<table border="1">
+    <thead>
+        <tr><th>번호</th><th>제목</th><th>작성자</th><th>조회수</th></tr>
+    </thead>
+    <tbody>
+        <tr><td><td></td><td></td><td></td></td></tr>
+        <tr><td><td></td><td></td><td></td></td></tr>
+        <tr><td><td></td><td></td><td></td></td></tr>
+        <tr><td><td></td><td></td><td></td></td></tr>
+    </tbody>c
+    </table>
+ 
+    <hr>
+    <p>비트캠프@2022</p>
+<script>
+console.log("1111");
+</script>
+<script src="exam08.js">
+
+</script>
+<script>
+    console.log("2222");
+</script>
+
+
+</body>
+</html>
+
+
+
+
+

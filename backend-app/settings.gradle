@@ -1,0 +1,3 @@
+rootProject.name = 'backend-app'
+include('app')
+                /// 밑에 프로젝트 더생기면 include(프로젝트명 추가 )

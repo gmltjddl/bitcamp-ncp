@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex03</title>
+</head>
+<body>
+<h1>함수 - 애로우(arrow) 함수를 아규먼트로 전달하기</h1>
+<script>
+"use strict"
+
+var arr = [100, "홍길동", 3.14 ,"임꺽정" ,true];
+function forEach(a, cb){    //cb 함수  a는 배열           
+for (var i=0; i<arr.length; i++){ 
+	cb(i, a[i]);  //콜백 함수 호출
+	}
+}
+
+forEach([100, "홍길동", 3.14 ,"임꺽정" ,true],function f(index, value) {
+ 	console.log(index+" : "+value);
+ } )
+ console.log("--------------------------")	;
+ forEach(arr,function f(index, value) {console.log(index+" : "+value);});
+ console.log("--------------------------")	;
+ forEach(arr,function(index, value) {console.log(index+" : "+value);});
+ console.log("--------------------------")	;
+ forEach(arr,(index, value)=> {console.log(index + " : "+ value);});
+ console.log("--------------------------")	;
+ forEach(arr,(index, value)=> console.log(index + " : "+ value));
+ console.log("--------------------------")	;
+
+ console.log("--------------------------")	;
+
+forEach(arr, (p1,p2) => console.log(p1+" : " + p2));
+forEach(arr, f);
+forEach(arr, c);
+
+ function f(index, value) {
+ 	console.log(index+" : "+value);
+ }
+
+
+ function c(aa, bb) {
+	console.log(aa + " : " +bb );	
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

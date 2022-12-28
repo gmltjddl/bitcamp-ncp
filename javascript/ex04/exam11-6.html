@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex04</title>
+</head>
+<body>
+  <h1>생성자6 - 생성자 상속과 prototype 연결</h1>
+  <script>
+    "use strict"
+    
+let obj = new Object();
+console.log(obj);
+console.log("------------------");
+
+function Engine(valve, cylinder, cc) {
+
+this.valve = valve;
+this.cylinder = cylinder;
+this.cc = cc;
+};
+
+Engine.prototype.print = function() {
+  console.log("벨브: " + this.valve);
+  console.log("실린더: " + this.cylinder);
+  console.log("CC: " + this.cc);
+  console.log("라이트:" + this.light);
+  console.log("탈수있는인원: " + this.capacity);
+  console.log("기어박스:" + this.auto);
+
+};
+
+let e1 = new Engine(16,4,2000);
+console.log(e1);
+console.log(e1.toString());
+e1.print();
+console.log("------------------");
+
+// e1.test();
+Object.prototype.test = function(){
+  console.log("Object.test() 호출됨!");
+};
+e1.test();
+
+function Car(valve, cylinder, cc, light, capacity, auto) {
+  
+  Engine.call(this, valve, cylinder, cc);
+  
+  this.light = light;
+  this.capacity = capacity;
+  this.auto = auto;
+}
+
+
+Car.prototype = Object.create(Engine.prototype);
+
+Car.prototype.constructor = Car;
+
+Car.prototype.setLight = function(light) {
+  
+  this.light = light;
+};
+var c1 = new Car(16, 16, 2000,1, 5,true);
+
+console.log(c1);
+c1.setLight(true);
+c1.toString();
+c1.test();
+console.log(c1);
+c1.print();
+
+
+</script>
+</body>
+</html>

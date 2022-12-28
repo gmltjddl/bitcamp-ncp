@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex07</title>
+</head>
+<body>
+<h1>XMLHttpRequest 사용하기</h1>
+<table border="1">
+    <thead>
+        <tr><th>번호</th><th>제목</th><th>작성자</th><th>조회수</th></tr>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
+
+<script>
+
+
+var tbody = document.querySelector("tbody");
+let promise = fetch("http://localhost:3000/boards"); // 서버요청
+let promise2 = promise.then ((response)=> {          //성공하면 호출
+    return response.json();                             // 응답한걸 텍스트로변환(텍스트를 처리할 프로미스 객체)
+});
+promise2.then((arr)=> {                            //변환한 텍스트를 받음
+                for (var b of arr) {
+                	var tr = document.createElement("tr");
+                	tr.innerHTML = "<td>" + b.no + "</td>" + 
+                	   "<td>" + b.title + "</td>" + 
+                	   "<td>" + b.writer + "</td>" +
+                	   "<td>" + b.viewCnt + "</td>";
+                	tbody.appendChild(tr);
+                }
+            });
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+

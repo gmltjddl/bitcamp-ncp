@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex02</title>
+</head>
+<body>
+<h1>조건문 - if</h1>
+<button id="btn1">버튼</button>
+
+<script>
+
+
+
+
+
+let age = 27;
+                                //참        //거짓 
+let message = age < 20 ? "미성년입니다": "성인입니다";
+console.log(message);
+
+console.log("------------------------------")
+
+//쉼표 연산자 
+let a = 100,
+    b = 200, 
+    c = 300;
+console.log(a,b,c);
+
+const obj = new Object();
+obj.name = "홍길동";
+obj.age = 20;
+console.log(obj);
+
+delete obj.name;
+console.log(obj);
+
+delete obj["age"];
+console.log(obj);
+
+console.log("-----------------------------");
+
+let v= "홍길동";
+console.log(typeof v);
+v= 100;
+console.log(typeof v);
+
+console.log((typeof v) == "number");
+
+//void 표현식의 결과를 리턴하지 않는다. 
+let x = 20;
+let y = 30;
+console.log(x+y);
+console.log(void (x+y));
+
+console.log("-----------------------------");
+
+// in 연산자 
+// 객체에 해당 이름을 가진 프로퍼티가 있는지 검사한다.
+const obj2 = {
+  name : "홍길동",
+  age : "20",
+  working : true,
+  print(){
+    console.log(this.name + '(' + this.age + ',' + this.working + ')')
+  }
+}
+console.log(obj2);
+obj2.print();
+
+console.log('name' in obj2);
+console.log('age' in obj2);
+console.log('working' in obj2);
+console.log('print' in obj2);
+console.log('tel' in obj2);
+
+console.log('---------------------');
+
+//instanceof 연산자
+//객체를 만들때 초기화시킨 생성자가 맞는지 검사한다.
+const obj3 = new Object();
+const obj4 = {};
+const obj5 = new Date();
+
+console.log(obj3 instanceof Object);
+console.log(obj4 instanceof Object);
+console.log(obj5 instanceof Object);
+
+const obj6 = document.getElementById('btn1');
+console.log(obj6);
+console.log(obj6.constructor);
+console.log(obj6 instanceof HTMLButtonElement);
+console.log(obj6 instanceof HTMLElement);
+console.log(obj6 instanceof Element);
+console.log(obj6 instanceof Node);
+console.log(obj6 instanceof EventTarget);
+console.log(obj6 instanceof Object);
+console.log(obj6 instanceof Date);
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
