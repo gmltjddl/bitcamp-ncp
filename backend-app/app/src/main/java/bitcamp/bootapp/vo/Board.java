@@ -1,6 +1,13 @@
-package bitcamp.bootapp;
+package bitcamp.bootapp.vo;
 
 public class Board {
+  private int no;
+  private String title;
+  private String content;
+  private String password;
+  private String createdDate;
+  private int viewCount;
+
   public int getNo() {
     return no;
   }
@@ -32,16 +39,11 @@ public class Board {
     this.createdDate = createdDate;
   }
   public int getViewCount() {
-    return viewCount++;
+    return viewCount;
   }
   public void setViewCount(int viewCount) {
     this.viewCount = viewCount;
   }
-  private int no;
-  private String title;
-  private String content;
-  private String password;
-  private String createdDate;
-  private int viewCount;
+
 
 }

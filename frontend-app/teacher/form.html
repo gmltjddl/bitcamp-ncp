@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>새 강사</h1>
+  <form>
+<table border="1">
+<tbody>
+  <tr>
+    <td>이름</td>
+    <td><input type="text" name="name" id="name"></td>
+  </tr>
+  <tr>
+    <td>전화</td>
+    <td><input type="text" name="tel" id="tel"></td>
+  </tr>
+  <tr>
+    <td>이메일</td>
+    <td><input type="text" name="email" id="email"></td>
+  </tr>
+  <tr>
+    <td>최종학력</td>
+    <td><input type="text" name="lastSchool" id="lastSchool"></td>
+  </tr>
+  <tr>
+    <td>대학교</td>
+    <td><input type="text" name="college" id="college"></td>
+  </tr>
+  <tr>
+    <td>전공</td>
+    <td><input type ="text" name="major"  id="major"></td> 
+  </tr>
+  <tr>
+    <td>강사료</td>
+    <td><input type ="text" name="pay"  id="pay"></td> 
+  </tr>
+</tbody>
+</table>
+<button id="add-btn"type="button">등록</button>
+<button id="cancel-btn" type="button">취소</button>
+  </form>
+  <script>
+   document.querySelector('#add-btn').onclick = (e) => {
+      var name = encodeURIComponent(document.querySelector('#name').value);
+      var tel = encodeURIComponent(document.querySelector('#tel').value);
+      var email = encodeURIComponent(document.querySelector('#email').value);
+      var lastSchool = encodeURIComponent(document.querySelector('#lastSchool').value);
+      var college =encodeURIComponent(document.querySelector('#college').value);
+      var major = encodeURIComponent(document.querySelector('#major').value);
+      var pay = document.querySelector('#pay').value;
+
+      fetch('http://localhost:8080/Teachers',{
+        method : 'POST',
+        headers:{
+          'Content-type':'application/x-www-form-urlencoded'
+        },
+        body: `name=${name}&tel=${tel}&email=${email}
+        &lastSchool=${lastSchool}&college=${college}&major=${major}
+        &pay=${pay}`
+      })
+      .then((response) => {return response.json();})
+      .then((obj) =>  {
+      
+         location.href = "list.html";
+    })
+     .catch((err)=> {
+      alert("서버 요청 오류 발생");
+      console.log(err);
+     });
+    };
+    document.querySelector('#cancel-btn').onclick = (e)=> {
+      location.href="list.html";
+    };
+    
+  </script>
+</body>
+</html>
