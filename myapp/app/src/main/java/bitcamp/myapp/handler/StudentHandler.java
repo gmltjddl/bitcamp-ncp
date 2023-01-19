@@ -163,19 +163,31 @@ public class StudentHandler {
       System.out.println("5. 삭제");
       System.out.println("6. 검색");
       System.out.println("0. 이전");
-      int menuNo = Prompt.inputInt(String.format("%s> ", this.title));
+      int menuNo;
+      try {
+        menuNo = Prompt.inputInt(String.format("%s> ", this.title));
 
-      switch (menuNo) {
-        case 0: return;
-        case 1: this.inputMember(); break;
-        case 2: this.printMembers(); break;
-        case 3: this.printMember(); break;
-        case 4: this.modifyMember(); break;
-        case 5: this.deleteMember(); break;
-        case 6: this.searchMember(); break;
-        default:
-          System.out.println("잘못된 메뉴 번호 입니다.");
+      }catch(Exception e) {
+        System.out.println("메뉴번호가 옳지 않습니다.");
+        continue;
+      }
+      try {
+        switch (menuNo) {
+          case 0: return;
+          case 1: this.inputMember(); break;
+          case 2: this.printMembers(); break;
+          case 3: this.printMember(); break;
+          case 4: this.modifyMember(); break;
+          case 5: this.deleteMember(); break;
+          case 6: this.searchMember(); break;
+          default:
+            System.out.println("잘못된 메뉴 번호 입니다.");
+        }
+      }catch (Exception e) {
+        System.out.printf("명령 실행 중 오류 발생 - %s\n", e.getMessage(),
+            e.getClass().getSimpleName());
       }
     }
   }
 }
+
