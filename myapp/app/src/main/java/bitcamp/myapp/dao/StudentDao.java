@@ -2,34 +2,53 @@ package bitcamp.myapp.dao;
 
 import java.sql.Date;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.Iterator;
+import bitcamp.util.List;
 
-public class StudentDao extends ObjectDao{
-
+public class StudentDao  {
+  List list;
+  public StudentDao (List list) {
+    this.list=list;
+  }
 
   int lastNo;
 
-  @Override
+  public void insert(Student student) {
+    student.setNo(++lastNo);
+    student.setCreatedDate(new Date(System.currentTimeMillis()).toString());
+
+    list.add(student);
+  }
+
+
   public Student findByNo(int no) {
     Student s = new Student();
     s.setNo(no);
-    return (Student) this.get(this.indexOf(s));
-  }
-  @Override
-  protected int indexOf(Object obj) {
-    for (int i = 0; i < this.size(); i++) {
-      if (((Student)this.objects[i]).getNo() == ((Student)obj).getNo()) {
-        return i;
-      }
+    int index = list.indexOf(s);
+    if(index == -1) {
+      return null;
     }
-    return -1;
+    return (Student) list.get(index);
   }
-  @Override
-  public void insert(Object object) {
-    Student s = (Student) object;
-    s.setNo(++lastNo);
-    s.setCreatedDate(new Date(System.currentTimeMillis()).toString());
-    super.insert(object);
+  public void update(Student s) {
+    int index = list.indexOf(s);
+    list.set(index,s); // 인덱스자리에 b객체를 넣는다
+
   }
+  public boolean delete(Student s) {
+    return list.remove(s);
+  }
+  public Student[] findAll() {
+    Student[] students = new Student[list.size()];
+    Iterator i = list.iterator();
+    int index = 0;
+    while(i.hasNext()) {
+      students[index++] = (Student) i.next();
+
+    }
+    return students;
+  }
+
 }
 
 

@@ -2,11 +2,12 @@ package bitcamp.myapp.handler;
 
 import bitcamp.myapp.dao.StudentDao;
 import bitcamp.myapp.vo.Student;
+import bitcamp.util.ArrayList;
 import bitcamp.util.Prompt;
 
 public class StudentHandler {
 
-  private StudentDao memberDao = new StudentDao();
+  private StudentDao memberDao = new StudentDao(new ArrayList());
   private String title;
 
   public StudentHandler(String title) {
@@ -29,12 +30,11 @@ public class StudentHandler {
 
   private void printMembers() {
 
-    Object[] members = this.memberDao.findAll();
+    Student[] members = this.memberDao.findAll();
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Object obj : members) {
-      Student m = (Student) obj;
+    for (Student m : members) {
       System.out.printf("%d\t%s\t%s\t%s\t%s\n",
           m.getNo(), m.getName(), m.getTel(),
           m.isWorking() ? "예" : "아니오",
@@ -46,11 +46,6 @@ public class StudentHandler {
     int memberNo = Prompt.inputInt("회원번호? ");
 
     Student m = this.memberDao.findByNo(memberNo);
-
-    if (m == null) {
-      System.out.println("해당 번호의 회원이 없습니다.");
-      return;
-    }
 
     System.out.printf("    이름: %s\n", m.getName());
     System.out.printf("    전화: %s\n", m.getTel());
@@ -136,14 +131,13 @@ public class StudentHandler {
 
   private void searchMember() {
 
-    Object[] members =this.memberDao.findAll();
+    Student[] members = this.memberDao.findAll();
 
     String name = Prompt.inputString("이름? ");
 
     System.out.println("번호\t이름\t전화\t재직\t전공");
 
-    for (Object obj : members) {
-      Student m = (Student) obj;
+    for (Student m : members) {
       if (m.getName().equalsIgnoreCase(name)) {
         System.out.printf("%d\t%s\t%s\t%s\t%s\n",
             m.getNo(), m.getName(), m.getTel(),
@@ -163,14 +157,15 @@ public class StudentHandler {
       System.out.println("5. 삭제");
       System.out.println("6. 검색");
       System.out.println("0. 이전");
+
       int menuNo;
       try {
         menuNo = Prompt.inputInt(String.format("%s> ", this.title));
-
-      }catch(Exception e) {
-        System.out.println("메뉴번호가 옳지 않습니다.");
+      } catch (Exception e) {
+        System.out.println("메뉴 번호가 옳지 않습니다.");
         continue;
       }
+
       try {
         switch (menuNo) {
           case 0: return;
@@ -183,11 +178,11 @@ public class StudentHandler {
           default:
             System.out.println("잘못된 메뉴 번호 입니다.");
         }
-      }catch (Exception e) {
-        System.out.printf("명령 실행 중 오류 발생 - %s\n", e.getMessage(),
+      } catch (Exception e) {
+        System.out.printf("명령 실행 중 오류 발생! - %s : %s\n",
+            e.getMessage(),
             e.getClass().getSimpleName());
       }
     }
   }
 }
-

@@ -25,14 +25,15 @@ public class App {
       System.out.println("2. 강사관리");
       System.out.println("3. 게시판");
       System.out.println("9. 종료");
+
       int menuNo;
       try {
-
         menuNo = Prompt.inputInt("메뉴> ");
-      }catch(Exception e) {
-        System.out.println("메뉴번호가 옳지 않습니다.");
+      } catch (Exception e) {
+        System.out.println("메뉴 번호가 옳지 않습니다!");
         continue;
       }
+
       try {
         switch (menuNo) {
           case 1: studentHandler.service(); break;
@@ -42,13 +43,14 @@ public class App {
           default:
             System.out.println("잘못된 메뉴 번호 입니다.");
         }
-      }catch(Exception e) {
-        System.out.printf("명령 실행 중 오류 발생 - %s\n", e.getMessage(),
+      } catch (Exception e) {
+        System.out.printf("명령 실행 중 오류 발생! - %s : %s\n",
+            e.getMessage(),
             e.getClass().getSimpleName());
-        continue;
       }
     }
   }
+
 } // class App
 
 

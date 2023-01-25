@@ -9,6 +9,7 @@ public class Student extends Member {
   private  char gender;
   private byte level;
 
+
   public String getPostNo() {
     return postNo;
   }
