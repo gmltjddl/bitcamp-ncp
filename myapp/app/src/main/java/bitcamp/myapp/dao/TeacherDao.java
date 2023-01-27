@@ -1,13 +1,13 @@
 package bitcamp.myapp.dao;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.List;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.Iterator;
-import bitcamp.util.List;
 
 public class TeacherDao {
-  List list;
-  public TeacherDao (List list) {
+  List<Teacher> list;
+  public TeacherDao (List<Teacher> list) {
     this.list=list;
   }
   int lastNo;
@@ -27,11 +27,11 @@ public class TeacherDao {
     if(index == -1) {
       return null;
     }
-    return (Teacher) list.get(index);
+    return list.get(index);
   }
   protected int indexOf(Object obj) {
     for (int i = 0; i < list.size(); i++) {
-      if (((Teacher) list.get(i)).getNo() == ((Teacher) obj).getNo()) {
+      if (list.get(i).getNo() == ((Teacher) obj).getNo()) {
         return i;
       }
     }
@@ -39,10 +39,10 @@ public class TeacherDao {
   }
   public Teacher[] findAll() {
     Teacher[] teachers = new Teacher[list.size()];
-    Iterator i = list.iterator();
+    Iterator<Teacher> i = list.iterator();
     int index = 0;
     while(i.hasNext()) {
-      teachers[index++] = (Teacher) i.next();
+      teachers[index++] = i.next();
 
     }
     return teachers;

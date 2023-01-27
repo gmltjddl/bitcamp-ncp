@@ -1,16 +1,16 @@
 package bitcamp.myapp.dao;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.List;
 import bitcamp.myapp.vo.Board;
-import bitcamp.util.Iterator;
-import bitcamp.util.List;
 
 public class BoardDao {
 
   //특정 클래스를 지정하기 보다는  인터페이스를 통해 관계를 느슨하게 만든다.
-  List list ;
+  List<Board> list ;
 
-  public BoardDao(List list) {
+  public BoardDao(List<Board> list) {
     //List 규칙에 따라서 만든 객체를 외부에서 주입받는다.
     //이렇게하면 이클래스는 ArrayList또는 LinkedList와 같은
     //특정 클래스와의 관계가 없어진다.
@@ -24,10 +24,10 @@ public class BoardDao {
   }
   public Board[] findAll() {
     Board[] boards = new Board[list.size()];
-    Iterator i = list.iterator();
+    Iterator<Board> i = list.iterator();
     int index = 0;
     while(i.hasNext()) {
-      boards[index++] = (Board)i.next();
+      boards[index++] = i.next();
 
     }
     return boards;
@@ -40,7 +40,7 @@ public class BoardDao {
     if(index == -1) {
       return null;
     }
-    return (Board) list.get(index);
+    return list.get(index);
   }
   public void update(Board b) {
     int index = list.indexOf(b);
