@@ -1,54 +1,86 @@
 package bitcamp.myapp.dao;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import bitcamp.myapp.vo.Board;
 
 public class BoardDao {
 
-  //특정 클래스를 지정하기 보다는  인터페이스를 통해 관계를 느슨하게 만든다.
-  List<Board> list ;
+  List<Board> list;
+  int lastNo;
 
   public BoardDao(List<Board> list) {
-    //List 규칙에 따라서 만든 객체를 외부에서 주입받는다.
-    //이렇게하면 이클래스는 ArrayList또는 LinkedList와 같은
-    //특정 클래스와의 관계가 없어진다.
     this.list = list;
   }
-  int lastNo;
+
   public void insert(Board board) {
     board.setNo(++lastNo);
     board.setCreatedDate(new Date(System.currentTimeMillis()).toString());
     list.add(board);
   }
+
   public Board[] findAll() {
     Board[] boards = new Board[list.size()];
     Iterator<Board> i = list.iterator();
     int index = 0;
-    while(i.hasNext()) {
+    while (i.hasNext()) {
       boards[index++] = i.next();
-
     }
     return boards;
   }
+
   public Board findByNo(int no) {
     Board b = new Board();
     b.setNo(no);
 
     int index = list.indexOf(b);
-    if(index == -1) {
+    if (index == -1) {
       return null;
     }
+
     return list.get(index);
   }
+
   public void update(Board b) {
     int index = list.indexOf(b);
-    list.set(index,b); // 인덱스자리에 b객체를 넣는다
-
+    list.set(index, b);
   }
+
   public boolean delete(Board b) {
     return list.remove(b);
+  }
+
+  public void save(String filename) {
+    try (FileWriter out = new FileWriter(filename)) {
+      out.write(new Gson().toJson(list));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void load(String filename) {
+    if (list.size() > 0) { // 중복 로딩 방지!
+      return;
+    }
+
+    try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+      // 1) Json 데이터를 어떤 타입의 객체로 변환 할 것인지 그 타입 정보를 준비한다.
+      TypeToken<List<Board>> collectionType = new TypeToken<>() {};
+      // 2) 입력 스트림에서 JSON 데이터를 읽고, 지정한 타입의 객체로 변환하여 리턴한다.
+      list= new Gson().fromJson(in,collectionType);
+      if (list.size() > 0) {
+        lastNo = list.get(list.size() - 1).getNo();
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
 

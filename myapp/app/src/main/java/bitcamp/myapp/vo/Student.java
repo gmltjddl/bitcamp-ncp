@@ -1,15 +1,52 @@
 package bitcamp.myapp.vo;
 
 // 회원 데이터를 담을 메모리를 설계한다.
-public class Student extends Member {
+public class Student extends Member implements java.io.Serializable {
+  private static final long serialVersionUID = 1L;
+
   private String postNo;
   private String basicAddress;
   private String detailAddress;
   private boolean working;
-  private  char gender;
+  private char gender;
   private byte level;
 
 
+  public static Student create(String csv) {
+    try{
+      String[] values = csv.split(",");
+
+
+      Student obj = new Student();
+      obj.setNo(Integer.parseInt(values[0]));
+      obj.setName(values[1]);
+      obj.setTel(values[2]);
+      obj.setCreatedDate(values[3]);
+      obj.setPostNo(values[4]);
+      obj.setBasicAddress(values[5]);
+      obj.setDetailAddress(values[6]);
+      obj.setWorking(Boolean.parseBoolean(values[7]));
+      obj.setGender(values[8].charAt(0));
+      obj.setLevel(Byte.parseByte(values[9]));
+      return obj;
+    }catch (Exception e) {
+      throw new RuntimeException("Board 객체 생성 오류!",e);
+    }
+
+  }
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%s,%s,%b,%s,%d\n",
+        this.getNo(),
+        this.getName(),
+        this.getTel(),
+        this.getCreatedDate(),
+        this.getPostNo(),
+        this.getBasicAddress(),
+        this.getDetailAddress(),
+        this.isWorking(),
+        this.getGender(),
+        this.getLevel());
+  }
   public String getPostNo() {
     return postNo;
   }
