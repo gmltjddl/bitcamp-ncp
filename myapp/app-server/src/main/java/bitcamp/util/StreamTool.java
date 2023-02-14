@@ -54,12 +54,23 @@ public class StreamTool {
     return this;
   }
 
-  public String promptString(String title) throws Exception{
+  public String promptString(String title) throws Exception {
     this.print(title).send();
     return this.readString();
   }
-  public int promptInt(String title) throws Exception{
+
+  public int promptInt(String title) throws Exception {
     this.print(title).send();
     return this.readInt();
   }
+
 }
+
+
+
+
+
+
+
+
+
