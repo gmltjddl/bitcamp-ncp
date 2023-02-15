@@ -70,10 +70,10 @@ public class Board implements java.io.Serializable {
   public void setPassword(String password) {
     this.password = password;
   }
-  public String getCreatedDate() {
+  public Date getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(String createdDate) {
+  public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
   public int getViewCount() {
