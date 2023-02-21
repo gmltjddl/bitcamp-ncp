@@ -2,32 +2,35 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="BoardMapper">
+<mapper namespace="BoardDao">
 
-<resultMap type="board" id="boardMap">
-<id column="board_id" property="no"/>
-<result column="title" property="title"/>
-<result column="content" property="content"/>
-<result column="pwd" property="password"/>
-<result column="created_date" property="createdDate"/>
-<result column="view_cnt" property="viewCount"/>
+  <resultMap type="board" id="boardMap">
+    <id column="board_id" property="no"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="pwd" property="password"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_cnt" property="viewCount"/>
+  </resultMap>
 
-
-</resultMap>
-
-  <insert id="insert" parameterType="Board">
+  <insert id="insert" parameterType="board">
     insert into app_board(title, content, pwd) 
     values(#{title}, #{content}, #{password})
   </insert>
 
-  <select id="findAll" resultMap="boardMap">
+  <select id="findAll" resultMap="boardMap" parameterType="string">
     select 
       board_id, 
       title, 
       created_date, 
       view_cnt 
     from 
-      app_board 
+      app_board
+    <if test="keyword != '' and keyword != null">
+    where 
+      title like(concat('%',#{keyword},'%'))
+      or content like(concat('%',#{keyword},'%'))
+    </if> 
     order by 
       board_id desc
   </select>
@@ -38,7 +41,7 @@
       title, 
       content, 
       pwd, 
-      created_date,
+      created_date, 
       view_cnt
     from 
       app_board 
@@ -51,21 +54,6 @@
       view_cnt = view_cnt + 1
     where board_id=#{maumdaerohaedodoi}
   </update>
-  
-  <select id="findByKeyword" parameterType="string" resultMap="boardMap">
-    select 
-      board_id, 
-      title, 
-      created_date, 
-      view_cnt
-    from 
-      app_board 
-    where 
-      title like(concat('%',#{keyword},'%'))
-      or content like(concat('%',#{keyword},'%'))
-    order by 
-      board_id desc
-  </select>
   
   <update id="update" parameterType="board">
     update app_board set 
