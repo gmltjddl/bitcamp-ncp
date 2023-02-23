@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>게시판(JSP + MVC2)</h1>
-<form action='insert' method='post'>
+<form action='insert' method='post' enctype="multipart/form-data">
 <table border='1'>
 <tr>
   <th>제목</th>
@@ -19,8 +19,8 @@
   <td><textarea name='content' rows='10' cols='60'></textarea></td>
 </tr>
 <tr>
-  <th>암호</th>
-  <td><input type='password' name='password'></td>
+  <th>첨부파일</th>
+  <td><input type="file" name='files' multiple></td>
 </tr>
 </table>
 <div>

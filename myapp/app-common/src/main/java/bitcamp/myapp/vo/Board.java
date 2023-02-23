@@ -13,18 +13,6 @@ public class Board implements java.io.Serializable {
   private Date createdDate;
   private int viewCount;
 
-
-  // Information Expert 패턴
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%d,%s",
-        this.getNo(),
-        this.getTitle(),
-        this.getContent(),
-        this.getPassword(),
-        this.getViewCount(),
-        this.getCreatedDate());
-  }
-
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
