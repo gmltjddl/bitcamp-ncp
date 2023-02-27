@@ -13,7 +13,7 @@
 <c:if test="${empty board}">
   <p>해당 번호의 게시글 없습니다.</p>
   <div>
-    <button id='btn-list' type='button' >목록</button>
+    <button id='btn-list' type='button'>목록</button>
   </div>
 </c:if>
 
@@ -47,13 +47,13 @@
   <tr>
     <th>첨부파일</th>
     <td>
-    <input type="file" name='files' multiple>
+      <input type="file" name='files' multiple>
       <ul>
       <c:forEach items="${board.attachedFiles}" var="boardFile">
         <c:if test="${boardFile.no != 0}">
           <li>
-          <a href="../download/boardfile?fileNo=${boardFile.no}">${boardFile.originalFilename}</a>
-          [<a href="filedelete?boardNo=${board.no}&fileNo=${boardFile.no}">삭제</a>]
+            <a href="../download/boardfile?fileNo=${boardFile.no}">${boardFile.originalFilename}</a>
+            [<a href="filedelete?boardNo=${board.no}&fileNo=${boardFile.no}">삭제</a>]
           </li>
         </c:if>
       </c:forEach>
@@ -64,8 +64,10 @@
 	
 	<div>
 	  <button id='btn-list' type='button'>목록</button>
+	<c:if test="${loginUser.no == board.writer.no}">
 	  <button>변경</button>
 	  <button id='btn-delete' type='button'>삭제</button>
+	</c:if>
 	</div>
 	</form>
 </c:if>

@@ -34,8 +34,7 @@ public class DaoGenerator implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    try(SqlSession sqlSession = sqlSessionFactory.openSession()){
-
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       String daoName = proxy.getClass().getInterfaces()[0].getSimpleName();
       String methodName = method.getName();
       String sqlStatementName = String.format("%s.%s", daoName, methodName);
