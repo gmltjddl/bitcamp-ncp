@@ -1,94 +1,73 @@
 package bitcamp.myapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import bitcamp.myapp.service.TeacherService;
 import bitcamp.myapp.vo.Teacher;
-import bitcamp.util.Controller;
-import bitcamp.util.RequsetMapping;
-@RequsetMapping("/teacher/insert")
-@Controller
+import bitcamp.util.RestResult;
+import bitcamp.util.RestStatus;
+
+@RestController
+@RequestMapping("/teachers")
 public class TeacherController {
 
-  private TeacherService teacherService;
+  Logger log = LogManager.getLogger(getClass());
 
-  public TeacherController(TeacherService teacherService) {
-    this.teacherService = teacherService;
+  {
+    log.trace("TeacherController 생성됨!");
   }
 
-  @RequsetMapping("/teacher/form")
-  public String form(HttpServletRequest request, HttpServletResponse response) {
-    return "/teacher/form.jsp";
+  @Autowired private TeacherService teacherService;
+
+  @PostMapping
+  public Object insert(@RequestBody Teacher teacher) {
+    teacherService.add(teacher);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @RequsetMapping("/teacher/insert")
-  public String insert(HttpServletRequest request, HttpServletResponse response) {
-
-    Teacher teacher = new Teacher();
-    teacher.setName(request.getParameter("name"));
-    teacher.setEmail(request.getParameter("email"));
-    teacher.setPassword(request.getParameter("password"));
-    teacher.setTel(request.getParameter("tel"));
-    teacher.setDegree(Integer.parseInt(request.getParameter("degree")));
-    teacher.setSchool(request.getParameter("school"));
-    teacher.setMajor(request.getParameter("major"));
-    teacher.setWage(Integer.parseInt(request.getParameter("wage")));
-
-    try {
-      teacherService.add(teacher);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/teacher/insert.jsp";
+  @GetMapping
+  public Object list() {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(teacherService.list());
   }
 
-  @RequsetMapping("/teacher/list")
-  public String list(HttpServletRequest request, HttpServletResponse response) {
-    request.setAttribute("teachers", teacherService.list());
-    return "/teacher/list.jsp";
+  @GetMapping("{no}")
+  public Object view(@PathVariable int no) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(teacherService.get(no));
   }
 
-  @RequsetMapping("/teacher/view")
-  public String view(HttpServletRequest request, HttpServletResponse response) {
-    request.setAttribute("teacher",
-        teacherService.get(Integer.parseInt(request.getParameter("no"))));
-    return "/teacher/view.jsp";
+  @PutMapping("{no}")
+  public Object update(
+      @PathVariable int no,
+      @RequestBody Teacher teacher) {
+
+    log.debug(teacher);
+
+    teacher.setNo(no);
+    teacherService.update(teacher);
+
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @RequsetMapping("/teacher/update")
-  public String update(HttpServletRequest request, HttpServletResponse response) {
-
-    Teacher teacher = new Teacher();
-    teacher.setNo(Integer.parseInt(request.getParameter("no")));
-    teacher.setName(request.getParameter("name"));
-    teacher.setEmail(request.getParameter("email"));
-    teacher.setPassword(request.getParameter("password"));
-    teacher.setTel(request.getParameter("tel"));
-    teacher.setDegree(Integer.parseInt(request.getParameter("degree")));
-    teacher.setSchool(request.getParameter("school"));
-    teacher.setMajor(request.getParameter("major"));
-    teacher.setWage(Integer.parseInt(request.getParameter("wage")));
-
-    try {
-      teacherService.update(teacher);
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/teacher/update.jsp";
+  @DeleteMapping("{no}")
+  public Object delete(@PathVariable int no) {
+    teacherService.delete(no);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @RequsetMapping("/teacher/delete")
-  public String delete(HttpServletRequest request, HttpServletResponse response) {
-
-    try {
-      teacherService.delete(Integer.parseInt(request.getParameter("no")));
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/teacher/delete.jsp";
-  }
 }

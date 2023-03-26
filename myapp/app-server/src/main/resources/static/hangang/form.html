@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>한강 갤러리 폼</title>
+</head>
+<style>
+.div-wrap1{
+  width:700px;
+  height:1000px;
+  position:relative;
+  left:50px;
+  border:1px solid;
+  text-align:center;
+  border: solid 1px red;
+  display:inline-block;
+}
+.div-wrap2{
+  width:700px;
+  height:1000px;
+  position:relative;
+  left:850px;
+  border:1px solid;
+  text-align:center;
+  border: solid 1px red;
+  display:inline-block;
+
+}
+.g-title{
+  width:600px;
+  height:30px;
+  position:relative;
+  left:50px;
+  border:1px solid;
+  text-align:center;
+}
+.g-file{
+  width:600px;
+  height:500px;
+  position:relative;
+  left:50px;
+  border:1px solid;
+  text-align:center;
+}
+.file{
+  position:relative;
+    top:225px;
+    left:25px;
+}
+.g-tag{
+  width:600px;
+  height:100px;
+  position:relative;
+  left:50px;
+  top:50px;
+  border:1px solid;
+  text-align:center;
+
+  
+}
+.g-content{
+  width:600px;
+  height:100px;
+  position:relative;
+  left:550px;
+  top:50px;
+  border:1px solid;
+  text-align:center;
+}
+  </style>
+<body>
+<h1>갤러리 폼</h1>
+
+<div class="div-wrap1">
+<div class= "g-title">게시할 사진</div>
+  <form id='gall-form' method='post' enctype="multipart/form-data">
+
+<div class = "g-file">
+<input type= "file" name='files' multiple class="file">
+</div>
+
+<div class="g-tag">태그를 남기시오</div>
+<div>
+<textarea name='content' rows='10' cols='20'></textarea>
+</div>
+</div>
+<div class="div-wrap2">
+  <div>
+    <div class="g-content">내용</div>
+   <textarea name='content' rows='30' cols='100'></textarea>
+</div>
+</div>
+  
+  <div>
+    <button id="btn-insert" type="button">등록</button>
+    <button id='btn-cancel' type='button'>취소</button>
+  </div>
+  </form>
+</div>
+<div>
+<script>
+document.querySelector('#btn-insert').onclick = function() {
+  const form = document.querySelector('#board-form');
+  const formData = new FormData(form);
+  
+  fetch("../boards", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(result => {
+    if (result.status == 'success') {
+      location.href = 'list.html';
+    } else if (result.errorCode == '401') {
+    	location.href = '../auth/form.html';
+    } else {
+      alert('입력 실패!');
+    }
+  })
+  .catch(exception => {
+	  alert("입력 오류!");
+	  console.log(exception);
+  });
+  
+}
+
+document.querySelector('#btn-cancel').onclick = function() {
+  location.href = 'list.html';
+}
+</script>
+
+</body>
+</html>
+

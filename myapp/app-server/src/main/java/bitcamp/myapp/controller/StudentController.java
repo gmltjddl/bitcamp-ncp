@@ -1,125 +1,73 @@
 package bitcamp.myapp.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import bitcamp.myapp.service.StudentService;
 import bitcamp.myapp.vo.Student;
-import bitcamp.util.Controller;
-import bitcamp.util.RequsetMapping;
-import bitcamp.util.RequsetParam;
-@Controller
-public class StudentController  {
-  private StudentService studentService;
+import bitcamp.util.RestResult;
+import bitcamp.util.RestStatus;
 
-  public StudentController(StudentService studentService) {
-    this.studentService = studentService;
+@RestController
+@RequestMapping("/students")
+public class StudentController {
+
+  Logger log = LogManager.getLogger(getClass());
+
+  {
+    log.trace("StudentController 생성됨!");
   }
 
-  @RequsetMapping("/student/form")
-  public String form() {
-    return "/student/form.jsp";
+  @Autowired private StudentService studentService;
+
+  @PostMapping
+  public Object insert(@RequestBody Student student) {
+    studentService.add(student);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @RequsetMapping("/student/insert")
-  public String insert(
-      @RequsetParam("name") String name,
-      @RequsetParam("email") String email,
-      @RequsetParam("password") String password,
-      @RequsetParam("tel") String tel,
-      @RequsetParam("postNo") String postNo,
-      @RequsetParam("basicAddress") String basicAddress,
-      @RequsetParam("detailAddress") String detailAddress,
-      @RequsetParam("working") boolean working,
-      @RequsetParam("gender") char gender,
-      @RequsetParam("level") byte level,
-      HttpServletRequest request
-      ) {
-
-    Student student = new Student();
-    student.setName(name);
-    student.setEmail(email);
-    student.setPassword(password);
-    student.setTel(tel);
-    student.setPostNo(postNo);
-    student.setBasicAddress(basicAddress);
-    student.setDetailAddress(detailAddress);
-    student.setWorking(working);
-    student.setGender(gender);
-    student.setLevel(level);
-
-    try {
-      studentService.add(student);
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/student/insert.jsp";
+  @GetMapping
+  public Object list(String keyword) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(studentService.list(keyword));
   }
 
-  @RequsetMapping("/student/list")
-  public String list(
-      @RequsetParam("keyword") String keyword,
-      HttpServletRequest request) {
-    request.setAttribute("students", studentService.list(keyword));
-    return "/student/list.jsp";
+  @GetMapping("{no}")
+  public Object view(@PathVariable int no) {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(studentService.get(no));
   }
 
-  @RequsetMapping("/student/view")
-  public String execute(
-      @RequsetParam("no") int no,
-      HttpServletRequest request) {
+  @PutMapping("{no}")
+  public Object update(
+      @PathVariable int no,
+      @RequestBody Student student) {
 
-    request.setAttribute("student",
-        studentService.get(no));
-    return"/student/view.jsp";
-  }
+    log.debug(student);
 
-  @RequsetMapping("/student/update")
-  public String update(
-      @RequsetParam("no") int no,
-      @RequsetParam("name") String name,
-      @RequsetParam("email") String email,
-      @RequsetParam("password") String password,
-      @RequsetParam("tel") String tel,
-      @RequsetParam("postNo") String postNo,
-      @RequsetParam("basicAddress") String basicAddress,
-      @RequsetParam("detailAddress") String detailAddress,
-      @RequsetParam("working") boolean working,
-      @RequsetParam("gender") char gender,
-      @RequsetParam("level") byte level,
-      HttpServletRequest request) {
-    Student student = new Student();
+    // 보안을 위해 URL 번호를 게시글 번호로 설정한다.
     student.setNo(no);
-    student.setName(name);
-    student.setEmail(email);
-    student.setPassword(password);
-    student.setTel(tel);
-    student.setPostNo(postNo);
-    student.setBasicAddress(basicAddress);
-    student.setDetailAddress(detailAddress);
-    student.setWorking(working);
-    student.setGender(gender);
-    student.setLevel(level);
 
-    try {
-      studentService.update(student);
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/student/update.jsp";
+    studentService.update(student);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
 
-  @RequsetMapping("/student/delete")
-  public String delete(
-      @RequsetParam("no") int no,
-      HttpServletRequest request) {
-    try {
-      studentService.delete(no);
-    } catch (Exception e) {
-      e.printStackTrace();
-      request.setAttribute("error", "other");
-    }
-    return "/student/delete.jsp";
+  @DeleteMapping("{no}")
+  public Object delete(@PathVariable int no) {
+    studentService.delete(no);
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
   }
-
 }
